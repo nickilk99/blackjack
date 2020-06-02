@@ -24,23 +24,22 @@ namespace WebApplication14
             btnHit.Enabled = false;
             btnPass.Enabled = false;
             btnRestart.Enabled = false;
-            txtPlayerMoney.Enabled = false;
+            lblPMoney.Enabled = false;
 
         }
 
         protected void DealCards(object sender, EventArgs e)
         {
-            if (txtPlayerMoney.Text == null || txtPlayerMoney.Text == "")
+
+            //getting playermoney from session
+            if (lblPMoney.Text == null || lblPMoney.Text == "")
             {
                 StartGame();
-
             }
             if (Session["money"] != null)
             {
-                txtPlayerMoney.Text = Session["money"].ToString();
-
+                lblPMoney.Text = Session["money"].ToString();
             }
-
 
 
             //START GAME
@@ -50,21 +49,20 @@ namespace WebApplication14
             //give cards
             player.Hand.Add(Deal(rnd.Next(1, 52)));
             player.Hand.Add(Deal(rnd.Next(1, 52)));
-
             dealer.Hand.Add(Deal(rnd.Next(1, 52)));
             dealer.Hand.Add(Deal(rnd.Next(1, 52)));
 
             //disable bet box
             txtBet.Enabled = false;
-
             txtPlayerScore.Text = Convert.ToString(UpdateScore(player));
             txtDealerScore.Text = Convert.ToString(UpdateScore(dealer));
-            int pmoney = Convert.ToInt32(txtPlayerMoney.Text);
-
+            int pmoney = Convert.ToInt32(lblPMoney.Text);
+            
+            //save session
             Session["player"] = player;
             Session["dealer"] = dealer;
 
-            //MakeImages();
+            //Make Images;
             List<Card> playerHandImages = player.Hand;
             List<Card> dealerListImages = dealer.Hand;
             MakeImages(playerHandImages, dealerListImages);
@@ -74,8 +72,8 @@ namespace WebApplication14
             {
                 ShowMessage("Black Jack, you win.");
                 int Pot = Convert.ToInt32(txtBet.Text);
-                int playerMoney = Convert.ToInt32(txtPlayerMoney.Text) + Pot;
-                txtPlayerMoney.Text = playerMoney.ToString();
+                int playerMoney = Convert.ToInt32(lblPMoney.Text) + Pot;
+                lblPMoney.Text = playerMoney.ToString();
                 GameOver(pmoney);
                 return;
             }
@@ -84,8 +82,8 @@ namespace WebApplication14
             {
                 ShowMessage("Black Jack, dealer wins.");
                 int Pot = Convert.ToInt32(txtBet.Text);
-                int playerMoney = Convert.ToInt32(txtPlayerMoney.Text) - Pot;
-                txtPlayerMoney.Text = playerMoney.ToString();
+                int playerMoney = Convert.ToInt32(lblPMoney.Text) - Pot;
+                lblPMoney.Text = playerMoney.ToString();
                 GameOver(pmoney);
                 return;
             }
@@ -128,7 +126,7 @@ namespace WebApplication14
 
             int p = (UpdateScore(player));
             int d = (UpdateScore(dealer));
-            int pmoney = Convert.ToInt32(txtPlayerMoney.Text);
+            int pmoney = Convert.ToInt32(lblPMoney.Text);
 
 
             btnDeal.Enabled = false;
@@ -151,10 +149,6 @@ namespace WebApplication14
             txtDealerScore.Text = (dealer.Score).ToString();
 
             //give dealer a card
-            //DealerCard();
-            //give dealer a card
-            //DealerCard();
-            //give dealer a card
             int dscore = Convert.ToInt32(txtDealerScore.Text);
             if (dscore < 17)
             {
@@ -173,7 +167,7 @@ namespace WebApplication14
             //check if win or lose
             int p = (UpdateScore(player));
             int d = (UpdateScore(dealer));
-            int pmoney = Convert.ToInt32(txtPlayerMoney.Text);
+            int pmoney = Convert.ToInt32(lblPMoney.Text);
 
 
             btnDeal.Enabled = false;
@@ -206,11 +200,12 @@ namespace WebApplication14
         {
             txtDealerScore.Text = "";
             txtPlayerScore.Text = "";
-            txtMessage.Text = "";
+            lblMsg.Text = "";
             btnDeal.Enabled = true;
             btnHit.Enabled = false;
             btnPass.Enabled = false;
             btnRestart.Enabled = false;
+            txtBet.Enabled = true;
         }
 
         protected void GameOver(int pmoney)
@@ -220,12 +215,12 @@ namespace WebApplication14
             btnPass.Enabled = false;
             btnRestart.Enabled = true;
             txtBet.Enabled = true;
-            txtPlayerMoney.Text = pmoney.ToString();
+            lblPMoney.Text = pmoney.ToString();
         }
 
         public void ShowMessage(string msg)
         {
-            txtMessage.Text = msg;
+            lblMsg.Text = msg;
         }
 
         protected int UpdateScore(Player p)
@@ -249,15 +244,11 @@ namespace WebApplication14
         {
                 Card currentCard = deck.Cards[rnd];
                 return currentCard;
-
-            
-            
         }
 
 
         protected void MakeImages(List<Card> cdlist, List<Card> dealerlist)
         {
-
             double punctX = 10;
             double spacing = 5;
 
@@ -307,55 +298,54 @@ namespace WebApplication14
             if (pscore > 21)
             {
                 ShowMessage("You lose.");
-                btnDeal.Enabled = false;
-                btnHit.Enabled = false;
-                btnPass.Enabled = false;
-                btnRestart.Enabled = true;
+                RoundEnd();
                 int Pot = Convert.ToInt32(txtBet.Text);
                 int playerMoney = pmoney;
                 int net = playerMoney - Pot;
-                txtPlayerMoney.Text = net.ToString();
-                txtBet.Enabled = true;
+                lblPMoney.Text = net.ToString();
+                txtBet.Enabled = false;
             }
             if (dscore > 21)
             {
                 ShowMessage("Dealer bust, you win.");
-                btnDeal.Enabled = false;
-                btnHit.Enabled = false;
-                btnPass.Enabled = false;
-                btnRestart.Enabled = true;
+                RoundEnd();
                 int Pot = Convert.ToInt32(txtBet.Text);
                 int playerMoney = pmoney;
                 int net = playerMoney + Pot;
-                txtPlayerMoney.Text = net.ToString();
-                txtBet.Enabled = true;
+                lblPMoney.Text = net.ToString();
+                txtBet.Enabled = false;
             }
             if (pscore == 21)
             {
                 ShowMessage("You win.");
-                btnDeal.Enabled = false;
-                btnHit.Enabled = false;
-                btnPass.Enabled = false;
-                btnRestart.Enabled = true;
+                RoundEnd();
                 int Pot = Convert.ToInt32(txtBet.Text);
                 int playerMoney = pmoney;
                 int net = playerMoney + Pot;
-                txtPlayerMoney.Text = net.ToString();
-                txtBet.Enabled = true;
+                lblPMoney.Text = net.ToString();
+                txtBet.Enabled = false;
             }
             if (dscore == 21)
             {
                 ShowMessage("You lose.");
-                btnDeal.Enabled = false;
-                btnHit.Enabled = false;
-                btnPass.Enabled = false;
-                btnRestart.Enabled = true;
+                RoundEnd();
                 int Pot = Convert.ToInt32(txtBet.Text);
                 int playerMoney = pmoney;
                 int net = playerMoney - Pot;
-                txtPlayerMoney.Text = net.ToString();
-                txtBet.Enabled = true;
+                lblPMoney.Text = net.ToString();
+                txtBet.Enabled = false;
+
             }
+        }
+
+
+
+        public void RoundEnd()
+        {
+            btnDeal.Enabled = false;
+            btnHit.Enabled = false;
+            btnPass.Enabled = false;
+            btnRestart.Enabled = true;
         }
 
 
@@ -372,7 +362,7 @@ namespace WebApplication14
 
         public void StartGame()
         {
-            txtPlayerMoney.Text = StartingAmount.ToString(); ;
+            lblPMoney.Text = StartingAmount.ToString(); ;
 
         }
 

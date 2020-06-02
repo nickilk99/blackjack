@@ -87,13 +87,13 @@ namespace WebApplication14
         protected global::System.Web.UI.WebControls.TextBox txtPlayerScore;
 
         /// <summary>
-        /// txtPlayerMoney control.
+        /// lblPMoney control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtPlayerMoney;
+        protected global::System.Web.UI.WebControls.Label lblPMoney;
 
         /// <summary>
         /// txtBet control.
@@ -159,12 +159,12 @@ namespace WebApplication14
         protected global::System.Web.UI.WebControls.Button btnDeal;
 
         /// <summary>
-        /// txtMessage control.
+        /// lblMsg control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtMessage;
+        protected global::System.Web.UI.WebControls.Label lblMsg;
     }
 }

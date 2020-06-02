@@ -31,7 +31,7 @@
             <p style="height: 76px">
                 <br />
                 <asp:Label ID="lblDealerTotal" runat="server" Text="Label">Dealer Total: </asp:Label>
-                <asp:TextBox ID="txtDealerScore" runat="server" Width="27px" Height="16px"></asp:TextBox>
+                <asp:TextBox ID="txtDealerScore" runat="server" Width="27px" Height="16px" Enabled="False" style="margin-left: 15px"></asp:TextBox>
             </p>
                                 <p style="height: 23px">
 
@@ -51,31 +51,33 @@
                 <asp:Panel ID="Panel1" runat="server" Height="93px" style="margin-top: 43px; margin-bottom: 33px">
                 </asp:Panel>
                 </div>
-                    <asp:Label ID="Label1" runat="server" Text="Player Cards"></asp:Label>
-                    <asp:TextBox ID="txtPlayerScore" runat="server" Width="28px"></asp:TextBox>
+                    <asp:Label ID="Label1" runat="server" Text="Player Total: "></asp:Label>
+                    <asp:TextBox ID="txtPlayerScore" runat="server" Width="28px" Enabled="False" style="margin-left: 13px"></asp:TextBox>
                                     <br />
-                                    Player Total:<asp:TextBox ID="txtPlayerMoney" runat="server"></asp:TextBox>
+                                    Money:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <asp:Label ID="lblPMoney" runat="server"></asp:Label>
                                     <br />
-                                    Bet:<asp:TextBox ID="txtBet" runat="server"></asp:TextBox>
+                                    Bet:<asp:TextBox ID="txtBet" runat="server" style="margin-left: 71px"></asp:TextBox>
                                     <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="txtBet" ErrorMessage="Required Field" ForeColor="Red"></asp:RequiredFieldValidator>
                                     <asp:RangeValidator ID="RangeValidator1" runat="server" ControlToValidate="txtBet" ErrorMessage="Must be between 1 and 100" ForeColor="Red" MaximumValue="100" MinimumValue="1" Type="Integer"></asp:RangeValidator>
                                     <br />
                                     <br />
                 </div>
-            <asp:Button ID="btnHit" runat="server" OnClick="Hit" Text="Hit" />
-            <asp:Button ID="btnPass" runat="server" OnClick="Pass" Text="Stand" />
+            <asp:Button ID="btnHit" runat="server" OnClick="Hit" Text="Hit" style="margin-left: 0px" />
+            <asp:Button ID="btnPass" runat="server" OnClick="Pass" Text="Stand" style="margin-left: 5px" />
             <br />
             <br />
 
             <br />
-            <asp:Button ID="btnRestart" runat="server" OnClick="Restart" Text="Restart" />
-            <asp:Button ID="btnDeal" runat="server" OnClick="DealCards" Text="Deal" />
+            <asp:Button ID="btnRestart" runat="server" OnClick="Restart" Text="Restart" style="margin-left: 0px" />
+            <asp:Button ID="btnDeal" runat="server" OnClick="DealCards" Text="Deal" style="margin-left: 3px" />
+                            <br />
+                            <br />
+                            <asp:Label ID="lblMsg" runat="server"></asp:Label>
             </div>
 
 
         <p>
             &nbsp;</p>
-            <asp:TextBox ID="txtMessage" runat="server" style="margin-left: 165px"></asp:TextBox>
     </form>
 
 </body>
