@@ -33,11 +33,6 @@
                 <asp:Label ID="lblDealerTotal" runat="server" Text="Label">Dealer Total: </asp:Label>
                 <asp:TextBox ID="txtDealerScore" runat="server" Width="27px" Height="16px" Enabled="False" style="margin-left: 15px"></asp:TextBox>
             </p>
-                                <p style="height: 23px">
-
- 
-                <asp:Label ID="Label2" runat="server" Text="Dealer Cards"></asp:Label>
-            </p>
                                                 <div>
                 <asp:Panel ID="Panel2" runat="server" Height="85px" style="margin-top: 33px">
 

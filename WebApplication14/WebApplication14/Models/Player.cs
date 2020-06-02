@@ -33,7 +33,7 @@ namespace WebApplication14.Models
 
         public override string ToString()
         {
-            return "Score: " + Score + " hand: " + Hand[0].Name;
+            return "Score: " + Score;
         }
     }
 }

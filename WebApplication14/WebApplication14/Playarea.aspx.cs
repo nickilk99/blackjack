@@ -25,12 +25,10 @@ namespace WebApplication14
             btnPass.Enabled = false;
             btnRestart.Enabled = false;
             lblPMoney.Enabled = false;
-
         }
 
         protected void DealCards(object sender, EventArgs e)
         {
-
             //getting playermoney from session
             if (lblPMoney.Text == null || lblPMoney.Text == "")
             {
@@ -40,7 +38,6 @@ namespace WebApplication14
             {
                 lblPMoney.Text = Session["money"].ToString();
             }
-
 
             //START GAME
             //shuffle
@@ -63,9 +60,7 @@ namespace WebApplication14
             Session["dealer"] = dealer;
 
             //Make Images;
-            List<Card> playerHandImages = player.Hand;
-            List<Card> dealerListImages = dealer.Hand;
-            MakeImages(playerHandImages, dealerListImages);
+            MakeImages(player.Hand, dealer.Hand);
 
             int pscore = Convert.ToInt32(txtPlayerScore.Text);
             if (pscore == 21)
@@ -88,7 +83,7 @@ namespace WebApplication14
                 return;
             }
 
-
+            //buttons
             btnDeal.Enabled = false;
             btnHit.Enabled = true;
             btnPass.Enabled = true;
@@ -99,8 +94,10 @@ namespace WebApplication14
         {
             //load session
             Player player = (Player)Session["player"];
-            txtPlayerScore.Text = Convert.ToString(player.Score);
             Player dealer = (Player)Session["dealer"];
+
+            //update text boxes
+            txtPlayerScore.Text = Convert.ToString(player.Score);
             txtDealerScore.Text = Convert.ToString(dealer.Score);
 
             //give player a card
@@ -113,31 +110,18 @@ namespace WebApplication14
             {
                 dealer.Hand.Add(Deal(rnd.Next(1, 52)));
                 txtDealerScore.Text = Convert.ToString(UpdateScore(dealer));
-
-
             }
-            //MakeImages();
-            List<Card> playerHandImages = player.Hand;
-            List<Card> dealerHandImages = dealer.Hand;
+            //Make Images;
+            MakeImages(player.Hand, dealer.Hand);
 
-            MakeImages(playerHandImages, dealerHandImages);
-
-            //check if win or lose
-
-            int p = (UpdateScore(player));
-            int d = (UpdateScore(dealer));
-            int pmoney = Convert.ToInt32(lblPMoney.Text);
-
-
+            //buttons
             btnDeal.Enabled = false;
             btnHit.Enabled = true;
             btnPass.Enabled = true;
-            CheckScore(p, d, pmoney);
 
+            //check if win or lose
+            CheckScore((UpdateScore(player)), (UpdateScore(dealer)), Convert.ToInt32(lblPMoney.Text));
 
-            //save session
-            Session["player"] = player;
-            Session["dealer"] = dealer;
         }
 
         protected void Pass(object sender, EventArgs e)
@@ -154,42 +138,20 @@ namespace WebApplication14
             {
                 dealer.Hand.Add(Deal(rnd.Next(1, 52)));
                 txtDealerScore.Text = Convert.ToString(UpdateScore(dealer));
-
-
             }
 
-            //MakeImages();
-            List<Card> playerHandImages = player.Hand;
-            List<Card> dealerHandImages = dealer.Hand;
-            
-            MakeImages(playerHandImages, dealerHandImages);
+            //Make Images;
+            MakeImages(player.Hand, dealer.Hand);
 
-            //check if win or lose
-            int p = (UpdateScore(player));
-            int d = (UpdateScore(dealer));
-            int pmoney = Convert.ToInt32(lblPMoney.Text);
-
-
+            //buttons
             btnDeal.Enabled = false;
             btnHit.Enabled = true;
             btnPass.Enabled = true;
-            CheckScore(p, d, pmoney);
 
+            //check if win or lose
+            CheckScore((UpdateScore(player)), (UpdateScore(dealer)), Convert.ToInt32(lblPMoney.Text));
 
-            //save session
-            Session["player"] = player;
-            Session["dealer"] = dealer;
-
-
-
-
-            int m = player.Money;
-            if (IsBankrupt(m))
-            {
-                GameOver(pmoney);
-            }
         }
-
 
         protected void DealerCard()
         {
@@ -246,55 +208,41 @@ namespace WebApplication14
                 return currentCard;
         }
 
-
         protected void MakeImages(List<Card> cdlist, List<Card> dealerlist)
         {
             double punctX = 10;
             double spacing = 5;
-
             Panel1.Style["position"] = "relative";
             Deck testDeck = new Deck();
-
             foreach(Card cd in cdlist)
             {
                 string path = testDeck.CardImages[cd.Suit + cd.Name];
-
                 Image image = new Image
                 {
                     Width = 60,
                     Height = 100,
                     ImageUrl = "~/PNG/" + path + ".png"
                 };
-
                 Panel1.Controls.Add(image);
-
                 punctX += image.Width.Value + spacing;
             }
 
             foreach (Card cd in dealerlist)
             {
                 string path = testDeck.CardImages[cd.Suit + cd.Name];
-
                 Image image = new Image
                 {
                     Width = 60,
                     Height = 100,
                     ImageUrl = "~/PNG/" + path + ".png"
                 };
-
                 Panel2.Controls.Add(image);
-
                 punctX += image.Width.Value + spacing;
             }
-
-
         }
-
 
         public void CheckScore(int pscore, int dscore, int pmoney)
         {
-
-
             if (pscore > 21)
             {
                 ShowMessage("You lose.");
@@ -334,11 +282,8 @@ namespace WebApplication14
                 int net = playerMoney - Pot;
                 lblPMoney.Text = net.ToString();
                 txtBet.Enabled = false;
-
             }
         }
-
-
 
         public void RoundEnd()
         {
@@ -348,22 +293,9 @@ namespace WebApplication14
             btnRestart.Enabled = true;
         }
 
-
-        public bool IsBankrupt(int money)
-        {
-            if(money < 0)
-            {
-                return true;
-            } else
-            {
-                return false;
-            }
-        }
-
         public void StartGame()
         {
             lblPMoney.Text = StartingAmount.ToString(); ;
-
         }
 
 
